@@ -1,0 +1,20 @@
+############################
+##### Overall workflow #####
+############################
+
+# Type of input data (either 'Single' or 'Cohort')
+DATA: "Single"
+
+# File directories to reference genome and dbSNP database
+REFGENOME: "/NGS/scratch/KSCBIOM/HumanGenomics/publicData/human_refs/GRCh38/Homo_sapiens_assembly38.fasta"
+dbSNP: "/NGS/scratch/KSCBIOM/HumanGenomics/publicData/human_databases/GRCh38/All_20180418.vcf.gz"
+
+# Temporary file directory
+TEMPDIR: "/NGS/scratch/KSCBIOM/HumanGenomics/tmp/"
+
+# WES settings (leave blank if analysing other data such as WGS)
+WES:
+  # Genomic intervals over which to operate
+  INTERVALS: "-L /NGS/scratch/KSCBIOM/HumanGenomics/publicData/design_files/sure_select_human_all_exon_V7/S31285117_hs_hg38/S31285117_AllTracks.bed"
+  # Padding (in bp) to add to each interval
+  PADDING: "-ip 100"

@@ -1,4 +1,0 @@
-Building DAG of jobs...
-MissingInputException in line 1 of /store/lkemp/exome_project/benchmarking/NA12878_exome/bench1.0/human_genomics_pipeline/rules/gatk_base_recalibrator.smk:
-Missing input files for rule gatk4_BaseRecalibrator:
-/store/lkemp/publicData/dbSNP/gatkBundle/GRCh37/dbsnp_138.hg19.vcf

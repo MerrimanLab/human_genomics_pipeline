@@ -1,0 +1,16 @@
+Building DAG of jobs...
+Creating report...
+Adding pre_trim_multiqc_report.html (1.2 MB).
+Adding post_trim_multiqc_report.html (1.2 MB).
+Adding NIST7035_NIST_R1.fastq.gz_trimming_report.txt (0.0035 MB).
+Adding NIST7035_NIST_R2.fastq.gz_trimming_report.txt (0.0037 MB).
+Adding NIST7086_NIST_R1.fastq.gz_trimming_report.txt (0.0035 MB).
+Adding NIST7086_NIST_R2.fastq.gz_trimming_report.txt (0.0037 MB).
+Adding NIST7035_NIST_recalibration_report.grp (0.85 MB).
+Could not detect mimetype for mapped/NIST7035_NIST_recalibration_report.grp, assuming text/plain.
+Could not detect mimetype for mapped/NIST7035_NIST_recalibration_report.grp, assuming text/plain.
+Adding NIST7086_NIST_recalibration_report.grp (0.86 MB).
+Could not detect mimetype for mapped/NIST7086_NIST_recalibration_report.grp, assuming text/plain.
+Could not detect mimetype for mapped/NIST7086_NIST_recalibration_report.grp, assuming text/plain.
+Downloading resources and rendering HTML.
+Report created: report.html.

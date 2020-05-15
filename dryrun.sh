@@ -3,4 +3,4 @@
 snakemake \
 -n -j 24 \
 --use-conda \
---configfile config.yaml
+--configfile ./config/GRCh37_single_WES_benchmarking_config.yml

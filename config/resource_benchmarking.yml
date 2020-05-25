@@ -1,0 +1,20 @@
+############################
+##### Overall workflow #####
+############################
+
+# Type of input data (either 'Single' or 'Cohort')
+DATA: "Single"
+
+# File directories to reference genome and dbSNP database
+REFGENOME: "/store/lkemp/publicData/referenceGenome/gatkBundle/GRCh37/ucsc.hg19.fasta"
+dbSNP: "/store/lkemp/publicData/dbSNP/gatkBundle/GRCh37/dbsnp_138.hg19.vcf"
+
+# Temporary file directory
+TEMPDIR: "/store/lkemp/exome_project/tmp/"
+
+# WES settings (leave blank if analysing other data such as WGS)
+WES:
+  # Genomic intervals over which to operate
+  INTERVALS: ""
+  # Padding (in bp) to add to each interval
+  PADDING: ""

@@ -2,22 +2,24 @@
 
 A simple Snakemake workflow to process paired-end sequencing data (WGS or WES) using [bwa](http://bio-bwa.sourceforge.net/), [sambamba](https://lomereiter.github.io/sambamba/) and [GATK4](https://gatk.broadinstitute.org/hc/en-us).
 
-- [human_genomics_pipeline](#humangenomicspipeline)
+- [human_genomics_pipeline](#human_genomics_pipeline)
   - [workflow diagram](#workflow-diagram)
-  - [How to run human_genomics_pipeline](#how-to-run-humangenomicspipeline)
+  - [How to run human_genomics_pipeline](#how-to-run-human_genomics_pipeline)
     - [1. Fork the pipeline repo to a personal or lab account](#1-fork-the-pipeline-repo-to-a-personal-or-lab-account)
     - [2. Take the pipeline to the data on your local machine](#2-take-the-pipeline-to-the-data-on-your-local-machine)
-    - [3. Create a local copy of the reference human genome and dbSNP database (either GRCh37 or GRCh38)](#3-create-a-local-copy-of-the-reference-human-genome-and-dbsnp-database-either-grch37-or-grch38)
+    - [3. Create a local copy of the reference human genome and variation databases (either GRCh37 or GRCh38)](#3-create-a-local-copy-of-the-reference-human-genome-and-variation-databases-either-grch37-or-grch38)
       - [GRCh37](#grch37)
       - [GRCh38](#grch38)
     - [4. Modify the configuration file](#4-modify-the-configuration-file)
-    - [5. Modify the run scripts](#5-modify-the-run-scripts)
-    - [6. Create and activate a conda environment with python and snakemake and installed](#6-create-and-activate-a-conda-environment-with-python-and-snakemake-and-installed)
-    - [7. Run the pipeline](#7-run-the-pipeline)
-    - [8. Evaluate the pipeline run](#8-evaluate-the-pipeline-run)
-    - [9. Commit and push to your forked version of the repo](#9-commit-and-push-to-your-forked-version-of-the-repo)
-    - [10. Repeat step 9 each time you re-run the analysis with different parameters](#10-repeat-step-9-each-time-you-re-run-the-analysis-with-different-parameters)
-    - [11. Create a pull request with the upstream repo to merge any useful changes (optional)](#11-create-a-pull-request-with-the-upstream-repo-to-merge-any-useful-changes-optional)
+    - [5. Configure to run on a HPC (optional)](#5-configure-to-run-on-a-hpc-optional)
+    - [6. Modify the run scripts](#6-modify-the-run-scripts)
+      - [HPC](#hpc)
+    - [7. Create and activate a conda environment with python and snakemake installed](#7-create-and-activate-a-conda-environment-with-python-and-snakemake-installed)
+    - [8. Run the pipeline](#8-run-the-pipeline)
+    - [9. Evaluate the pipeline run](#9-evaluate-the-pipeline-run)
+    - [10. Commit and push to your forked version of the repo](#10-commit-and-push-to-your-forked-version-of-the-repo)
+    - [11. Repeat step 10 each time you re-run the analysis with different parameters](#11-repeat-step-10-each-time-you-re-run-the-analysis-with-different-parameters)
+    - [12. Create a pull request with the upstream repo to merge any useful changes (optional)](#12-create-a-pull-request-with-the-upstream-repo-to-merge-any-useful-changes-optional)
   - [Useful reading](#useful-reading)
 
 ## workflow diagram
@@ -59,7 +61,7 @@ Clone the forked [human_genomics_pipeline](https://github.com/ESR-NZ/human_genom
 
 See [here](https://help.github.com/en/github/getting-started-with-github/fork-a-repo#keep-your-fork-synced) for help
 
-### 3. Create a local copy of the reference human genome and dbSNP database (either GRCh37 or GRCh38)
+### 3. Create a local copy of the reference human genome and variation databases (either GRCh37 or GRCh38)
 
 #### GRCh37
 
@@ -87,6 +89,15 @@ wget ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh37p13/VCF/GATK/All
 wget ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606_b151_GRCh37p13/VCF/GATK/All_20180423.vcf.gz.tbi
 ```
 
+Download other variation databases from the [GATK resource bundle](https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle)
+
+```bash
+wget ftp://gsapubftp-anonymous:password@ftp.broadinstitute.org/bundle/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz
+wget ftp://gsapubftp-anonymous:password@ftp.broadinstitute.org/bundle/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.idx.gz
+wget ftp://gsapubftp-anonymous:password@ftp.broadinstitute.org/bundle/hg19/1000G_phase1.indels.hg19.sites.vcf.gz
+wget ftp://gsapubftp-anonymous:password@ftp.broadinstitute.org/bundle/hg19/1000G_phase1.indels.hg19.sites.vcf.idx.gz
+```
+
 #### GRCh38
 
 Download the reference human genome (GRCh38) and it's associated fasta sequence dictionary file (.dict) and fasta index file (.fai) files from the [GATK resource bundle](https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle)
@@ -111,6 +122,13 @@ wget ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/GATK/
 wget ftp://ftp.ncbi.nlm.nih.gov/snp/organisms/human_9606_b151_GRCh38p7/VCF/GATK/All_20180418.vcf.gz.tbi
 ```
 
+Download other variation databases from the [GATK resource bundle](https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle)
+
+```bash
+wget ftp://gsapubftp-anonymous:password@ftp.broadinstitute.org/bundle/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+wget ftp://gsapubftp-anonymous:password@ftp.broadinstitute.org/bundle/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi
+```
+
 ### 4. Modify the configuration file
 
 Either edit the 'config_template.yaml' file from scratch, or edit a config file 'config_examples'.
@@ -126,7 +144,7 @@ Set the the working directories in the config file to the reference human genome
 
 ```yaml
 # File directories to reference genome and dbSNP database
-REFGENOME: "/home/lkemp/publicData/referenceGenome/Homo_sapiens_assembly38.fasta.gz"
+REFGENOME: "/home/lkemp/publicData/referenceGenome/Homo_sapiens_assembly38.fasta"
 dbSNP: "/home/lkemp/publicData/dbSNP/All_20180418.vcf.gz"
 
 # Temporary file directory
@@ -146,17 +164,48 @@ WES:
   PADDING: "-ip 100"
 ```
 
+Pass the resources to be used to recalibrate bases with gatk BaseRecalibrator to the `--known-sites` flag. For example:
+
+```yaml
+RECALIBRATION:
+  RESOURCES: "--known-sites /home/lkemp/publicData/dbSNP/All_20180418.vcf.gz
+              --known-sites /home/lkemp/publicData/mills/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"
+```
+
 Save your modified config file with a descriptive name
 
-### 5. Modify the run scripts
+### 5. Configure to run on a HPC (optional)
 
-Set the singularity bind location to a directory that contains the CADD database with the `--singularity-args` flag (eg. `'-B /home/lkemp/publicData/'`). Also specify your config file to be used with the `--configfile` flag and modify the number of cores to be used with the `-j` flag. For example:
+In theory, this cluster configuration should be adaptable to other job scheduler systems, but here I will demonstrate how to integrate this pipeline with slurm.
+
+Configure `account:`, `partition:` and `nodelist:` in default section of 'cluster.json' in order to set the parameters for slurm sbatch (see documentation [here](https://snakemake.readthedocs.io/en/stable/snakefiles/configuration.html#cluster-configuration-deprecated) and [here](https://slurm.schedmd.com/)). For example:
+
+```json
+{
+    "__default__" :
+    {
+        "account" : "lkemp",
+        "nodes" : 1,
+        "ntasks" : 4,
+        "partition" : "prod",
+        "nodelist" : "kscprod-bio4"
+    }
+}
+```
+
+[This](https://hpc-carpentry.github.io/hpc-python/17-cluster/) is a good place to go for a good working example if you get stuck.
+
+*These variables will need to be passed to snakemake in the snakemake run script (see example in step 6).*
+
+### 6. Modify the run scripts
+
+Specify your config file to be used with the `--configfile` flag and modify the number of cores to be used with the `-j` flag. For example:
 
 Dry run (dryrun.sh):
 
 ```bash
 snakemake \
--n -j 24 \
+-n -j 32 \
 --use-conda \
 --configfile config_37_single_WES.yaml
 ```
@@ -165,7 +214,7 @@ Full run (run.sh):
 
 ```bash
 snakemake \
--j 24 \
+-j 32 \
 --use-conda \
 --configfile config_37_single_WES.yaml
 ```
@@ -181,15 +230,48 @@ snakemake \
 
 See the [snakemake documentation](https://snakemake.readthedocs.io/en/v4.5.1/executable.html) for additional run parameters.
 
-### 6. Create and activate a conda environment with python and snakemake and installed
+#### HPC
+
+If you want to run the pipeline on a HPC, pass the cluster variables set in 'cluster.json' to the dry run and full run scripts. For example:
+
+Dry run (dryrun.sh):
 
 ```bash
-conda create -n pipeline_env python=3.7
-conda activate pipeline_env
-conda install -c bioconda snakemake=5.14.0
+snakemake \
+-n -j 32 \
+--use-conda \
+--configfile config_37_single_WES.yaml \
+--cluster-config cluster.json \
+--cluster "sbatch -A {cluster.account} \
+-p {cluster.partition} \
+--nodes {cluster.nodes} \
+--ntasks {cluster.ntasks} \
+--nodelist {cluster.nodelist}"
 ```
 
-### 7. Run the pipeline
+Full run (run.sh):
+
+```bash
+snakemake \
+-j 32 \
+--use-conda \
+--configfile config_37_single_WES.yaml \
+--cluster-config cluster.json \
+--cluster "sbatch -A {cluster.account} \
+-p {cluster.partition} \
+--nodes {cluster.nodes} \
+--ntasks {cluster.ntasks} \
+--nodelist {cluster.nodelist}"
+```
+
+### 7. Create and activate a conda environment with python and snakemake installed
+
+```bash
+conda env create -f pipeline_run_env.yml
+conda activate pipeline_run_env
+```
+
+### 8. Run the pipeline
 
 First carry out a dry run
 
@@ -203,7 +285,7 @@ If there are no issues, start a full run
 bash run.sh
 ```
 
-### 8. Evaluate the pipeline run
+### 9. Evaluate the pipeline run
 
 Generate an interactive html report
 
@@ -211,7 +293,7 @@ Generate an interactive html report
 bash report.sh
 ```
 
-### 9. Commit and push to your forked version of the repo
+### 10. Commit and push to your forked version of the repo
 
 To maintain reproducibility, commit and push:
 
@@ -219,9 +301,9 @@ To maintain reproducibility, commit and push:
 - All run scripts
 - The final report
 
-### 10. Repeat step 9 each time you re-run the analysis with different parameters
+### 11. Repeat step 10 each time you re-run the analysis with different parameters
 
-### 11. Create a pull request with the [upstream repo](https://github.com/ESR-NZ/human_genomics_pipeline) to merge any useful changes (optional)
+### 12. Create a pull request with the [upstream repo](https://github.com/ESR-NZ/human_genomics_pipeline) to merge any useful changes (optional)
 
 Contributions and feedback are more than welcome! :blush:
 

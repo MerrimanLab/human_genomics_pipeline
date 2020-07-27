@@ -6,7 +6,7 @@
 DATA: "Cohort"
 
 # File directories to reference genome and dbSNP database
-REFGENOME: "/path/to/reference/human/genome/Homo_sapiens_assembly38.fasta.gz"
+REFGENOME: "/path/to/reference/human/genome/Homo_sapiens_assembly38.fasta"
 dbSNP: "/path/to/dbSNP/All_20180418.vcf.gz"
 
 # Temporary file directory
@@ -18,3 +18,12 @@ WES:
   INTERVALS: ""
   # Padding (in bp) to add to each interval
   PADDING: ""
+
+##############################
+##### Base recalibration #####
+##############################
+
+# Resources used for base recalibration
+RECALIBRATION:
+  RESOURCES: "--known-sites /path/to/dbSNP/All_20180418.vcf.gz
+              --known-sites /path/to/mills/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"

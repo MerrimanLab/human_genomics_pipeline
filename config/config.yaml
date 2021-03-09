@@ -1,0 +1,57 @@
+##############################
+###### Overall workflow ######
+##############################
+
+# Type of input data (either 'Single' or 'Cohort')
+DATA: ""
+
+# Should the pipeline be GPU accelerated where possible? (either 'Yes' or 'No')
+GPU_ACCELERATED: ""
+
+# File path to the reference genome (.fasta)
+REFGENOME: ""
+
+# File path to dbSNP database
+dbSNP: ""
+
+# Temporary file directory
+TEMPDIR: ""
+
+# Whole exome sequence settings (leave blank if analysing other data such as whole genome sequence data)
+WES:
+  # File path to the exome capture regions over which to operate (prefix with the '-L' flag)
+  INTERVALS: ""
+  # Padding (in bp) to add to each region (prefix with the '-ip' flag)
+  PADDING: ""
+
+##############################
+##### Pipeline resources #####
+##############################
+
+# Number of threads to use per rule/sample for multithreaded rules, multithreading will significantly speed up these rules (diminishing speed gains beyond 8 threads)
+THREADS:
+
+# Maximum memory usage per rule/sample (eg. '40g' for 40 gigabytes, this should suffice for exomes)
+MAXMEMORY: ""
+
+# Maximum number of GPU's to be used per rule/sample for gpu-accelerated runs (eg `1` for 1 GPU)
+GPU:
+
+##############################
+########## Trimming ##########
+##############################
+
+# Whether or not to trim the raw fastq reads (either 'Yes' or 'No')
+TRIM: ""
+
+# If trimming, choose the adapter sequence to be trimmed (eg. `--illumina`, `--nextera` or `--small_rna`)
+TRIMMING:
+  ADAPTERS: ""
+
+##############################
+##### Base recalibration #####
+##############################
+
+# Resources to used for base recalibration (prefix each resource with the '--known-sites' flag if not gpu accelerated and the '--knownSites' if gpu accelerated)
+RECALIBRATION:
+  RESOURCES: ""
